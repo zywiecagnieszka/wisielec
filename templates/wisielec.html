@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisielec</title>
+</head>
+<body>
+    <h1>Gra w Wisielca</h1>
+    <p>Słowo: {{ wyswietl_slowo }}</p>
+    <p>Pozostałe próby: {{ pozostale_proby }}</p>
+
+    {% if wygrana %}
+        <p><strong>Gratulacje! Wygrałeś!</strong></p>
+        <a href="/gra/">Zagraj ponownie</a>
+    {% elif przegrana %}
+        <p><strong>Przegrałeś! Słowo to: {{ slowo }}</strong></p>
+        <a href="/gra/">Zagraj ponownie</a>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="odgadniete_litery" value="{{ odgadniete_litery }}">
+            <input type="hidden" name="pozostale_proby" value="{{ pozostale_proby }}">
+            <label for="litera">Podaj literę:</label>
+            <input type="text" id="litera" name="litera" maxlength="1" required>
+            <button type="submit">Zgadnij</button>
+        </form>
+    {% endif %}
+</body>
+</html>
