@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wisielec</title>
+    <title>Wisielec - Przysłowia</title>
 </head>
 <body>
-    <h1>Gra w Wisielca</h1>
-    <p>Słowo: {{ wyswietl_slowo }}</p>
+    <h1>Gra w Wisielca - Przysłowia</h1>
+    <p>Przysłowie: {{ wyswietl_przyslowie }}</p>
     <p>Pozostałe próby: {{ pozostale_proby }}</p>
 
     {% if wygrana %}
         <p><strong>Gratulacje! Wygrałeś!</strong></p>
-        <a href="/gra/">Zagraj ponownie</a>
+        <a href="/graprzyslowie/">Zagraj ponownie</a>
     {% elif przegrana %}
-        <p><strong>Przegrałeś! Słowo to: {{ slowo }}</strong></p>
-        <a href="/gra/">Zagraj ponownie</a>
+        <p><strong>Przegrałeś! Przysłowie to: "{{ przyslowie }}"</strong></p>
+        <a href="/graprzyslowie/">Zagraj ponownie</a>
     {% else %}
         <form method="post">
             {% csrf_token %}

@@ -23,4 +23,7 @@ urlpatterns = [
     path('', views.main_page, name='main_page'),
     path('zasady/', views.zasady, name='zasady'),
     path('gra/', views.gra_wisielec, name='gra_wisielec'),
+    path('graprzyslowie/', views.gra_przyslowie, name='gra_przyslowie'),
+    path('wybor_trybu/', views.wybor_trybu, name='wybor_trybu'),
+
 ]
