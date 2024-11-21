@@ -16,7 +16,10 @@ def main_page(request):
 def zasady(request):
     return render(request, 'zasady.html')
 
+
 def gra_wisielec(request):
+    alfabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż"  # Polski alfabet
+
     slowo = request.session.get('slowo')
     if not slowo:
         slowo = losuj_slowo()
@@ -26,27 +29,27 @@ def gra_wisielec(request):
     odgadniete_litery = request.session.get('odgadniete_litery', '')
 
     if request.method == "POST":
-        odgadniete_litery = request.POST.get('odgadniete_litery', odgadniete_litery)
         litera = request.POST.get('litera', '').lower()
-        pozostale_proby = int(request.POST.get('pozostale_proby', pozostale_proby))
-
-        if litera not in odgadniete_litery:
+        if litera and litera not in odgadniete_litery:
             odgadniete_litery += litera
-            if litera not in slowo:
+            if litera not in slowo.lower():
                 pozostale_proby -= 1
 
-    wyswietl_slowo = ' '.join(
-        [litera if litera in odgadniete_litery else '_' for litera in slowo]
+    wyswietl_slowo = ''.join(
+        [litera if litera.lower() in odgadniete_litery else '_' for litera in slowo]
     )
     wygrana = '_' not in wyswietl_slowo
     przegrana = pozostale_proby <= 0
+
+    litery_status = {lit: "zielony" if lit in odgadniete_litery and lit in slowo.lower()
+                     else "czerwony" if lit in odgadniete_litery else "szary"
+                     for lit in alfabet}
 
     if wygrana or przegrana:
         request.session['pozostale_proby'] = 6
         request.session['odgadniete_litery'] = ''
         request.session['slowo'] = losuj_slowo()
-
-    if not wygrana and not przegrana:
+    else:
         request.session['pozostale_proby'] = pozostale_proby
         request.session['odgadniete_litery'] = odgadniete_litery
 
@@ -56,8 +59,10 @@ def gra_wisielec(request):
         'odgadniete_litery': odgadniete_litery,
         'wygrana': wygrana,
         'przegrana': przegrana,
-        'slowo': slowo if przegrana else None
+        'slowo': slowo if przegrana else None,
+        'litery_status': litery_status
     })
+
 
 def losuj_przyslowie():
     otworz_plik = 'djangoProject/przyslowia.txt'
@@ -75,6 +80,8 @@ def losuj_przyslowie():
 
 
 def gra_przyslowie(request):
+    alfabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż"
+
     przyslowie = request.session.get('przyslowie')
     if not przyslowie:
         przyslowie = losuj_przyslowie()
@@ -84,34 +91,28 @@ def gra_przyslowie(request):
     odgadniete_litery = request.session.get('odgadniete_litery', '')
 
     if request.method == "POST":
-        odgadniete_litery = request.POST.get('odgadniete_litery', odgadniete_litery)
         litera = request.POST.get('litera', '').lower()
-        pozostale_proby = int(request.POST.get('pozostale_proby', pozostale_proby))
-
-        if litera not in odgadniete_litery:
+        if litera and litera not in odgadniete_litery:
             odgadniete_litery += litera
             if litera not in przyslowie.lower():
                 pozostale_proby -= 1
 
-    wyswietl_przyslowie = ''
-    for litera in przyslowie:
-        if not litera.isalpha():
-            wyswietl_przyslowie += litera
-        else:
-            if litera.lower() in odgadniete_litery:
-                wyswietl_przyslowie += litera
-            else:
-                wyswietl_przyslowie += '_'
-
+    wyswietl_przyslowie = ''.join(
+        [litera if litera.lower() in odgadniete_litery else '_' if litera.isalpha() else litera
+         for litera in przyslowie]
+    )
     wygrana = '_' not in wyswietl_przyslowie
     przegrana = pozostale_proby <= 0
+
+    litery_status = {lit: "zielony" if lit in odgadniete_litery and lit in przyslowie.lower()
+                     else "czerwony" if lit in odgadniete_litery else "szary"
+                     for lit in alfabet}
 
     if wygrana or przegrana:
         request.session['pozostale_proby'] = 6
         request.session['odgadniete_litery'] = ''
         request.session['przyslowie'] = losuj_przyslowie()
-
-    if not wygrana and not przegrana:
+    else:
         request.session['pozostale_proby'] = pozostale_proby
         request.session['odgadniete_litery'] = odgadniete_litery
 
@@ -121,9 +122,17 @@ def gra_przyslowie(request):
         'odgadniete_litery': odgadniete_litery,
         'wygrana': wygrana,
         'przegrana': przegrana,
-        'przyslowie': przyslowie if przegrana else None
+        'przyslowie': przyslowie if przegrana else None,
+        'litery_status': litery_status
     })
 
 
+
 def wybor_trybu(request):
+    # Resetowanie danych sesji
+    request.session['slowo'] = None
+    request.session['przyslowie'] = None
+    request.session['odgadniete_litery'] = ''
+    request.session['pozostale_proby'] = 6
     return render(request, 'wybor_trybu.html')
+

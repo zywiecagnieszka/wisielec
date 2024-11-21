@@ -8,7 +8,7 @@
 <body>
     <h1>Wybierz Tryb Gry</h1>
     <p>Wybierz tryb gry, który chcesz zagrać:</p>
-    <a href="{% url 'gra_wisielec' %}" class="btn btn-primary mt-3">Słowo</a>
-    <a href="{% url 'gra_przyslowie' %}" class="btn btn-primary mt-3">Przysłowie</a>
+    <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3" >Słowo</button>
+    <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >Przysłowie</button>
 </body>
 </html>

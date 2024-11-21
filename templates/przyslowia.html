@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wisielec - Przysłowia</title>
+    <style>
+        .zielony { color: green; }
+        .czerwony { color: red; }
+        .szary { color: gray; }
+        .litery { font-size: 1.2em; margin-top: 10px; }
+        .litera { margin: 0 5px; display: inline-block; }
+    </style>
 </head>
 <body>
     <h1>Gra w Wisielca - Przysłowia</h1>
@@ -12,10 +19,10 @@
 
     {% if wygrana %}
         <p><strong>Gratulacje! Wygrałeś!</strong></p>
-        <a href="/graprzyslowie/">Zagraj ponownie</a>
+        <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >Zagraj ponownie</button>
     {% elif przegrana %}
         <p><strong>Przegrałeś! Przysłowie to: "{{ przyslowie }}"</strong></p>
-        <a href="/graprzyslowie/">Zagraj ponownie</a>
+        <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >Zagraj ponownie</button>
     {% else %}
         <form method="post">
             {% csrf_token %}
@@ -24,8 +31,17 @@
             <label for="litera">Podaj literę:</label>
             <input type="text" id="litera" name="litera" maxlength="1" required>
             <button type="submit">Zgadnij</button>
-        <a href="{% url 'wybor_trybu' %}" class="btn btn-primary mt-3">Tryby</a>
+            
         </form>
     {% endif %}
+    <button onclick="window.location.href='{% url 'wybor_trybu' %}'" class="btn btn-primary mt-3" >Tryby</button>
+    <div class="litery">
+        {% for litera, status in litery_status.items %}
+            <span class="litera {{ status }}">{{ litera }}</span>
+        {% endfor %}
+    </div>
 </body>
 </html>
+
+
+
