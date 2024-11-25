@@ -1,5 +1,7 @@
 from django.shortcuts import render
 import random
+from django.utils.timezone import now
+
 
 def losuj_slowo():
     otworz_plik = 'djangoProject/slowa.txt'
@@ -134,5 +136,10 @@ def wybor_trybu(request):
     request.session['przyslowie'] = None
     request.session['odgadniete_litery'] = ''
     request.session['pozostale_proby'] = 6
+    request.session['czas_start'] = None
+    request.session['czas_limit'] = None
     return render(request, 'wybor_trybu.html')
+
+
+
 
