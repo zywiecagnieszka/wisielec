@@ -25,5 +25,6 @@ urlpatterns = [
     path('gra/', views.gra_wisielec, name='gra_wisielec'),
     path('graprzyslowie/', views.gra_przyslowie, name='gra_przyslowie'),
     path('wybor_trybu/', views.wybor_trybu, name='wybor_trybu'),
-
+    path('szybki_wisielec/', views.szybki_wisielec, name='szybki_wisielec'),
+    path('aktualizuj_czas/', views.aktualizuj_czas, name='aktualizuj_czas'),
 ]

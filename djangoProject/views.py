@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import random
-from django.utils.timezone import now
+import time
+from django.http import JsonResponse
 
 
 def losuj_slowo():
@@ -141,5 +142,73 @@ def wybor_trybu(request):
     return render(request, 'wybor_trybu.html')
 
 
+def szybki_wisielec(request):
+    alfabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż"
+    slowo = request.session.get('slowo')
+    pozostale_proby = request.session.get('pozostale_proby', 6)
+    odgadniete_litery = request.session.get('odgadniete_litery', '')
+    czas_pozostaly = request.session.get('czas_pozostaly', 60)
+
+    if not slowo:
+        slowo = losuj_slowo()
+        pozostale_proby = 6
+        odgadniete_litery = ''
+        czas_pozostaly = 30
+        request.session['slowo'] = slowo
+        request.session['pozostale_proby'] = pozostale_proby
+        request.session['odgadniete_litery'] = odgadniete_litery
+        request.session['czas_pozostaly'] = czas_pozostaly
+
+    if request.method == "POST" and 'litera' in request.POST:
+        litera = request.POST.get('litera', '').lower()
+        if litera and litera not in odgadniete_litery:
+            odgadniete_litery += litera
+            if litera not in slowo.lower():
+                pozostale_proby -= 1
+        request.session['odgadniete_litery'] = odgadniete_litery
+        request.session['pozostale_proby'] = pozostale_proby
+
+    wyswietl_slowo = ''.join(
+        [litera if litera.lower() in odgadniete_litery else '_' for litera in slowo]
+    ) if slowo else ''
+    wygrana = '_' not in wyswietl_slowo and slowo
+    przegrana = pozostale_proby <= 0 or czas_pozostaly <= 0
+
+    if request.method == "POST" and request.POST.get('nowa_gra') == 'true':
+        slowo = losuj_slowo()
+        pozostale_proby = 6
+        odgadniete_litery = ''
+        czas_pozostaly = 60
+        request.session['slowo'] = slowo
+        request.session['pozostale_proby'] = pozostale_proby
+        request.session['odgadniete_litery'] = odgadniete_litery
+        request.session['czas_pozostaly'] = czas_pozostaly
+
+    if wygrana or przegrana:
+        request.session['slowo'] = None
+
+    litery_status = {lit: "zielony" if lit in odgadniete_litery and lit in (slowo or '').lower()
+                     else "czerwony" if lit in odgadniete_litery else "szary"
+                     for lit in alfabet}
+
+    return render(request, 'szybki_wisielec.html', {
+        'wyswietl_slowo': wyswietl_slowo,
+        'pozostale_proby': pozostale_proby,
+        'odgadniete_litery': odgadniete_litery,
+        'wygrana': wygrana,
+        'przegrana': przegrana,
+        'slowo': slowo,
+        'litery_status': litery_status,
+        'czas_pozostaly': czas_pozostaly
+    })
 
 
+def aktualizuj_czas(request):
+    slowo = request.session.get('slowo')
+    czas_pozostaly = request.session.get('czas_pozostaly', 0)
+
+    if slowo and czas_pozostaly > 0:  # Odliczaj czas tylko podczas gry
+        czas_pozostaly -= 1
+        request.session['czas_pozostaly'] = czas_pozostaly
+
+    return JsonResponse({'czas_pozostaly': czas_pozostaly})

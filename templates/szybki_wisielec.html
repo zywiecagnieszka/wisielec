@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szybki Wisielec</title>
+    <style>
+        .zielony { color: green; }
+        .czerwony { color: red; }
+        .szary { color: gray; }
+        .litery { font-size: 1.2em; margin-top: 10px; }
+        .litera { margin: 0 5px; display: inline-block; }
+        .czas { font-weight: bold; color: red; }
+    </style>
+    <script>
+        function odswiezCzas() {
+            fetch("{% url 'aktualizuj_czas' %}")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('czas').innerText = data.czas_pozostaly;
+                    if (data.czas_pozostaly <= 0) {
+                        location.reload(); 
+                    }
+                });
+        }
+
+        window.onload = function() {
+            setInterval(odswiezCzas, 1000);
+            const literaInput = document.getElementById('litera');
+            if (literaInput) {
+                literaInput.focus();
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Szybka śmierć</h1>
+    {% if przegrana %}
+        <p><strong>Przegrałeś! Słowo to: {{ slowo }}</strong></p>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="nowa_gra" value="true">
+            <button type="submit">Zagraj ponownie</button>
+        </form>
+    {% elif wygrana %}
+        <p><strong>Gratulacje! Wygrałeś!</strong></p>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="nowa_gra" value="true">
+            <button type="submit">Zagraj ponownie</button>
+        </form>
+    {% else %}
+        <p>Słowo: {{ wyswietl_slowo }}</p>
+        <p>Pozostałe próby: {{ pozostale_proby }}</p>
+        <p class="czas">Pozostały czas: <span id="czas">{{ czas_pozostaly }}</span> sekund</p>
+        <form method="post">
+            {% csrf_token %}
+            <label for="litera">Podaj literę:</label>
+            <input type="text" id="litera" name="litera" maxlength="1" required>
+            <button type="submit">Zgadnij</button>
+        </form>
+    {% endif %}
+    <div class="litery">
+        {% for litera, status in litery_status.items %}
+            <span class="litera {{ status }}">{{ litera }}</span>
+        {% endfor %}
+    </div>
+</body>
+</html>
