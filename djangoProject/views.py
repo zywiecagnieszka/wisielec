@@ -147,7 +147,7 @@ def szybki_wisielec(request):
     slowo = request.session.get('slowo')
     pozostale_proby = request.session.get('pozostale_proby', 6)
     odgadniete_litery = request.session.get('odgadniete_litery', '')
-    czas_pozostaly = request.session.get('czas_pozostaly', 60)
+    czas_pozostaly = request.session.get('czas_pozostaly', 30)
 
     if not slowo:
         slowo = losuj_slowo()
@@ -178,7 +178,7 @@ def szybki_wisielec(request):
         slowo = losuj_slowo()
         pozostale_proby = 6
         odgadniete_litery = ''
-        czas_pozostaly = 60
+        czas_pozostaly = 30
         request.session['slowo'] = slowo
         request.session['pozostale_proby'] = pozostale_proby
         request.session['odgadniete_litery'] = odgadniete_litery
