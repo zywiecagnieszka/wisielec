@@ -6,14 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wybór Trybu</title>
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="rules">
+<body class="mode">
     <div class="container">
-    <h1>Wybierz Tryb Gry</h1>
-    <p>Wybierz tryb gry, który chcesz zagrać:</p>
-    <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3" >Słowo</button>
-    <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >Przysłowie</button>
-    <button onclick="window.location.href='{% url 'szybki_wisielec' %}'" class="btn btn-primary mt-3" >Szybka śmierć</button>
+        <img src="{% static 'image/NAZWA.png' %}" alt="LOGO" width="400" /><br>
+        <h1>Wybierz Tryb Gry</h1>
+        <p>Wybierz tryb gry, który chcesz zagrać:</p>
+
+        <div class="btn-container">
+            <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3" >
+                Słowo
+                <span class="tooltip">Zgaduj słowo, by ukończyć grę</span>
+            </button>
+        </div>
+
+        <div class="btn-container">
+            <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >
+                Przysłowie
+                <span class="tooltip">Zgaduj przysłowie, by ukończyć grę</span>
+            </button>
+        </div>
+
+        <div class="btn-container">
+            <button onclick="window.location.href='{% url 'szybki_wisielec' %}'" class="btn btn-primary mt-3" >
+                Szybka śmierć
+                <span class="tooltip">Zgadnij słowo w 30 sekund, by ukończyć grę</span>
+            </button>
+        </div>
     </div>
 </body>
 </html>
