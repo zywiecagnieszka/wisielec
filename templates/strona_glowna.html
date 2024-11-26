@@ -1,3 +1,5 @@
+{% load i18n %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -59,8 +61,7 @@
 </head>
 <body>
     <div class="container">
-        {% load static %}
-        <img src="{% static 'wisiol/NAZWA.png' %}" alt="LOGO" />
+        <img src="{% static 'wisiol/NAZWA.png' %}" alt="LOGO" width="500"  />
         <h1>Witaj w grze Wisielec!</h1>
         <p>Spróbuj odgadnąć ukryte słowo, zanim zostaniesz powieszony :)</p>
         <a href="{% url 'zasady' %}" class="btn">Rozpocznij grę</a>
