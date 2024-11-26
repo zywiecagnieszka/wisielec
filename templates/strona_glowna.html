@@ -6,63 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gra Wisielec</title>
-    <!--jula się bawi-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Indie+Flower&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!--koniec zabawy-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #d9d9d9;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            display: flex;
-            /*jula się bawi*/
-            font-family: "Indie Flower", serif;
-            font-style: normal;
-            /*koniec zabawy*/
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            font-size: 5rem;
-            margin-bottom: 20px;
-        }
-        p {
-            color: #666;
-            font-size: 2rem;
-        }
-        .btn {
-            background-color: #c6aab8;
-            border-width: 5px;
-            border-style: inset;
-            border-color: #963c8f;
-            color: #963c8f;
-            padding: 12px 21px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1.5rem;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #963c8f;
-            color: #c6aab8;
-            border-width: 5px;
-            border-style: outset;
-            border-color: #c6aab8;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
+<body class="home-page">
     <div class="container">
-        <img src="{% static 'wisiol/NAZWA.png' %}" alt="LOGO" width="400"  />
-    <br>
+        <img src="{% static 'image/NAZWA.png' %}" alt="LOGO" width="400" />
+        <br>
         <h1>Witaj w grze Wisielec!</h1>
         <p>Spróbuj odgadnąć ukryte słowo, zanim zostaniesz powieszony :)</p>
         <a href="{% url 'zasady' %}" class="btn">Rozpocznij grę</a>
