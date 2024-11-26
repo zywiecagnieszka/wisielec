@@ -6,6 +6,8 @@ body {
     background-color: #d9d9d9;
     font-family: Arial, sans-serif;
 }
+
+/*Strona główna*/
 .home-page .container {
     display: flex;
     flex-direction: column;
@@ -16,18 +18,15 @@ body {
     font-family: "Indie Flower", serif;
     font-style: normal;
 }
-
 .home-page h1 {
     color: #333;
     font-size: 5rem;
     margin-bottom: 20px;
 }
-
 p {
     color: #666;
     font-size: 2rem;
 }
-
 .home-page .btn {
     background-color: #c6aab8;
     border-width: 5px;
@@ -40,7 +39,6 @@ p {
     font-size: 1.5rem;
     transition: background-color 0.3s;
 }
-
 .home-page .btn:hover {
     background-color: #963c8f;
     color: #c6aab8;
@@ -49,7 +47,7 @@ p {
     border-color: #c6aab8;
 }
 
-
+/*Zasady*/
 .rules .container {
     max-width: 615px;
     margin: 0 auto;
@@ -86,3 +84,5 @@ p {
     border-style: outset;
     border-color: #c6aab8;
 }
+
+/*Wybor trybu*/

@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wybór Trybu</title>
 </head>
-<body>
+<body class="rules">
+    <div class="container">
     <h1>Wybierz Tryb Gry</h1>
     <p>Wybierz tryb gry, który chcesz zagrać:</p>
     <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3" >Słowo</button>
     <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >Przysłowie</button>
     <button onclick="window.location.href='{% url 'szybki_wisielec' %}'" class="btn btn-primary mt-3" >Szybka śmierć</button>
+    </div>
 </body>
 </html>
