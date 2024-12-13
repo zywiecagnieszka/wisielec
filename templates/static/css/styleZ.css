@@ -2,43 +2,139 @@
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
 
-body {
-    background-color: #d9d9d9;
+.slowa body {
     font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
-.containerZ {
-    max-width: 615px;
-    margin: 0 auto;
+
+.slowa .container {
+    background-color: #dedede;
+    width: 100%; /* Make the container span the entire width */
+    max-width: 1200px; /* Optional: Add a max-width for larger screens */
     padding: 20px;
-    text-align: center;
-    font-family: "Indie Flower", serif;
-    font-style: normal;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 20px;
 }
-.rules h1 {
-    color: #333;
-    font-size: 3rem;
+
+.slowa .illustration {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.slowa .illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.slowa .game-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.slowa .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
-.rules p {
-    color: #666;
-    font-size: 1.35rem;
-    text-align: justify;
+
+.slowa .header h1 {
+    font-size: 2em;
+    color: #80407a;
+    margin: 0;
 }
-.rules .btn {
-    background-color: #c6aab8;
-    border-width: 5px;
-    border-style: inset;
-    border-color: #963c8f;
-    color: #963c8f;
+
+.slowa .header button {
+    background-color: #d3b4d7;
+    border: none;
+    padding: 10px;
     border-radius: 5px;
-    text-decoration: none;
-    font-size: 1.5rem;
-    transition: background-color 0.3s;
+    cursor: pointer;
 }
-.rules .btn:hover {
-    background-color: #963c8f;
-    color: #c6aab8;
-    border-width: 5px;
-    border-style: outset;
-    border-color: #c6aab8;
+
+.slowa .word-display {
+    font-size: 1.5em;
+    letter-spacing: 10px;
+    text-align: center;
+    margin-bottom: 20px;
 }
+
+.slowa .small-text {
+    font-size: 0.8em;
+}
+
+.slowa .input-panel {
+    display: flex;
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+.slowa .input-panel label {
+    font-size: 1em;
+}
+
+.slowa .input-panel input {
+    padding: 10px;
+    font-size: 1.5em; /* Increased size for the letter input */
+    width: 50px;
+    text-align: center;
+}
+
+.slowa .button-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.slowa .button-panel button {
+    padding: 10px;
+    background-color: #d3b4d7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slowa .right-button {
+    margin-left: 10px;
+}
+
+.slowa .letter-grid {
+    background-color: #d3b4d7;
+    padding: 20px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+    justify-items: center;
+}
+
+.slowa .letter-grid span {
+    font-size: 1.2em;
+    padding: 5px;
+}
+
+.slowa .ranking {
+    background-color: #d3b4d7;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.slowa .zielony { color: green; }
+.slowa .czerwony { color: red; }
+.slowa .szary { color: gray; }
+.slowa .litery { font-size: 1.2em; margin-top: 10px; }
+.slowa .litera { margin: 0 5px; display: inline-block; }
