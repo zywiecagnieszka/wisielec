@@ -1,140 +1,186 @@
-/* Importowanie czcionek i frameworka Bootstrap */
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
 
-.slowa body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: "Indie Flower", serif;
+    font-style: normal;
+    background-color: #d9d9d9;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
-.slowa .container {
-    background-color: #dedede;
-    width: 100%; /* Make the container span the entire width */
-    max-width: 1200px; /* Optional: Add a max-width for larger screens */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-gap: 20px;
-}
-
-.slowa .illustration {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.slowa .illustration img {
+.container {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    top: -40px;
 }
 
-.slowa .game-panel {
+@media (min-width: 768px) {
+    .container {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: left;
+    position: relative;
+    left: -40px;
+}
+
+.header img {
+    width: 400px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.header h1 {
+    font-size: 2em;
+    color: #963c8f;
+}
+
+.illustration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+.game-panel {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.slowa .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.slowa .header h1 {
-    font-size: 2em;
-    color: #80407a;
-    margin: 0;
-}
-
-.slowa .header button {
-    background-color: #d3b4d7;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.slowa .word-display {
+.word-display {
     font-size: 1.5em;
-    letter-spacing: 10px;
     text-align: center;
     margin-bottom: 20px;
 }
 
-.slowa .small-text {
-    font-size: 0.8em;
-}
-
-.slowa .input-panel {
+.input-panel {
     display: flex;
-    align-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-.slowa .input-panel label {
-    font-size: 1em;
-}
-
-.slowa .input-panel input {
+.input-panel input {
     padding: 10px;
-    font-size: 1.5em; /* Increased size for the letter input */
+    font-size: 1.5em;
     width: 50px;
     text-align: center;
 }
 
-.slowa .button-panel {
+.button-panel {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
     margin-top: 20px;
 }
 
-.slowa .button-panel button {
+.button-panel button {
     padding: 10px;
-    background-color: #d3b4d7;
-    border: none;
+    background-color: #c6aab8;
+    border-color: #963c8f;
+    border-width: 5px;
+    color: #963c8f;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
     border-radius: 5px;
     cursor: pointer;
+    width: 70%;
+    max-width: 200px;
+    gap: 5px;
+    border-style: inset;
 }
 
-.slowa .right-button {
-    margin-left: 10px;
+.button-panel button:hover {
+    background-color: #963c8f;
+    color: #c6aab8;
+    border-width: 5px;
+    border-style: outset;
+    border-color: #c6aab8;
 }
 
-.slowa .letter-grid {
-    background-color: #d3b4d7;
+.buttonn-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+}
+
+.buttonn-panel button {
+    padding: 10px;
+    background-color: #c6aab8;
+    border-color: #963c8f;
+    border-width: 5px;
+    color: #963c8f;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+    gap: 5px;
+    border-style: inset;
+}
+
+.buttonn-panel button:hover {
+    background-color: #963c8f;
+    color: #c6aab8;
+    border-width: 5px;
+    border-style: outset;
+    border-color: #c6aab8;
+}
+
+.letter-grid {
+    background-color: #c6aab8;
     padding: 20px;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(3, auto);
     justify-items: center;
 }
 
-.slowa .letter-grid span {
+.letter-grid span {
     font-size: 1.2em;
     padding: 5px;
 }
 
-.slowa .ranking {
-    background-color: #d3b4d7;
+.ranking {
+    background-color: #c6aab8;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
 }
 
-.slowa .zielony { color: green; }
-.slowa .czerwony { color: red; }
-.slowa .szary { color: gray; }
-.slowa .litery { font-size: 1.2em; margin-top: 10px; }
-.slowa .litera { margin: 0 5px; display: inline-block; }
+.zielony { color: #963c8f; font-weight: bold; }
+.czerwony { color: #c6aab8; }
+.szary { color: gray; }
+.litery { font-size: 1.2em; margin-top: 10px; }
+.litera { margin: 0 5px; display: inline-block; }

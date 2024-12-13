@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wisielec</title>
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/styleZ.css' %}">
-
     <script>
         window.onload = function() {
             const literaInput = document.getElementById('litera');
@@ -15,32 +13,47 @@
                 literaInput.focus();
             }
         };
+
+        function confirmExit() {
+            const userConfirmed = window.confirm("Czy na pewno chcesz zakończyć grę?");
+            if (userConfirmed) {
+                window.location.href = '{% url 'wybor_trybu' %}';
+            } else {
+                return false; // Zapobiega przekierowaniu, jeśli użytkownik odrzuci
+            }
+        }
     </script>
 </head>
-<body class="slowa">
+<body>
     <div class="container">
-        <!-- Left illustration panel -->
         <div class="illustration">
             <img src="{% static 'image/' %}{{ numer_img }}.png" alt="Wisielec Image">
         </div>
 
-        <!-- Right game panel -->
         <div class="game-panel">
             <div class="header">
-                <img src="{% static 'image/NAZWA.png' %}" alt="LOGO" width="400" />
+                 <img src="{% static 'image/NAZWA.png' %}" alt="LOGO" width="400">
+                     <div class="buttonn-panel">
+                        <button onclick="confirmExit()">Tryby</button>
+                     </div>
             </div>
 
             <div class="word-display">
                 <p>Słowo: {{ wyswietl_slowo }}</p>
                 <p class="small-text">Pozostałe próby: {{ pozostale_proby }}</p>
-            
 
                 {% if wygrana %}
                     <p><strong>Gratulacje! Wygrałeś!</strong></p>
-                    <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                    <div class="button-panel"><button onclick="window.location.href='{% url 'gra_wisielec' %}'">Zagraj ponownie</button></div><br>
+                                         <div class="buttonn-panel">
+                        <button onclick="confirmExit()">Tryby</button>
+                     </div>
                 {% elif przegrana %}
                     <p><strong>Przegrałeś! Słowo to: {{ slowo }}</strong></p>
-                    <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                    <div class="button-panel"><button onclick="window.location.href='{% url 'gra_wisielec' %}'">Zagraj ponownie</button></div><br>
+                                         <div class="buttonn-panel">
+                        <button onclick="confirmExit()">Tryby</button>
+                     </div>
                 {% else %}
                     <form method="post">
                         {% csrf_token %}
@@ -50,15 +63,14 @@
                             <p class="small-text">Podaj literę:</p>
                             <input type="text" id="litera" name="litera" maxlength="1" required>
                         </div>
-                        
+
                         <div class="button-panel">
-                            <button type="submit" class="right-button">Zgadnij</button>
-                            <button onclick="window.location.href='{% url 'wybor_trybu' %}'">Tryby</button>
+                            <button type="submit">Zgadnij</button>
                         </div>
                     </form>
                 {% endif %}
             </div>
-            
+
             <div class="letter-grid">
                 {% for litera, status in litery_status.items %}
                     <span class="litera {{ status }}">{{ litera }}</span>
