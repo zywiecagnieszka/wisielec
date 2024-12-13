@@ -7,6 +7,138 @@
     <title>Wisielec</title>
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #dedede;
+            width: 100%; /* Make the container span the entire width */
+            max-width: 1200px; /* Optional: Add a max-width for larger screens */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-gap: 20px;
+        }
+
+        .illustration {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .game-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            color: #80407a;
+            margin: 0;
+        }
+
+        .header button {
+            background-color: #d3b4d7;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .word-display {
+            font-size: 1.5em;
+            letter-spacing: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .small-text {
+            font-size: 0.8em;
+        }
+
+        .input-panel {
+            display: flex;
+            align-content: center;
+            
+            margin-bottom: 20px;
+        }
+
+        .input-panel label {
+            font-size: 1em;
+        }
+
+        .input-panel input {
+            padding: 10px;
+            font-size: 1.5em; /* Increased size for the letter input */
+            width: 50px;
+            text-align: center;
+        }
+
+        .button-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-panel button {
+            padding: 10px;
+            background-color: #d3b4d7;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .right-button {
+            margin-left: 10px;
+        }
+
+        .letter-grid {
+            background-color: #d3b4d7;
+            padding: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            justify-items: center;
+        }
+
+        .letter-grid span {
+            font-size: 1.2em;
+            padding: 5px;
+        }
+
+        .ranking {
+            background-color: #d3b4d7;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
         .zielony { color: green; }
         .czerwony { color: red; }
         .szary { color: gray; }
@@ -21,35 +153,55 @@
             }
         };
     </script>
-    
 </head>
 <body>
-    <h1>Gra w Wisielca</h1>
-    <p>Słowo: {{ wyswietl_slowo }}</p>
-    <p>Pozostałe próby: {{ pozostale_proby }}</p>
+    <div class="container">
+        <!-- Left illustration panel -->
+        <div class="illustration">
+            <img src="{% static 'image/0.png' %}" alt="Wisielec Image">
+        </div>
 
-    {% if wygrana %}
-        <p><strong>Gratulacje! Wygrałeś!</strong></p>
-        <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3" >Zagraj ponownie</button>
-    {% elif przegrana %}
-        <p><strong>Przegrałeś! Słowo to: {{ slowo }}</strong></p>
-        <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3" >Zagraj ponownie</button>
-    {% else %}
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="odgadniete_litery" value="{{ odgadniete_litery }}">
-            <input type="hidden" name="pozostale_proby" value="{{ pozostale_proby }}">
-            <label for="litera">Podaj literę:</label>
-            <input type="text" id="litera" name="litera" maxlength="1" required>
-            <button type="submit">Zgadnij</button>
-        <button onclick="window.location.href='{% url 'wybor_trybu' %}'" class="btn btn-primary mt-3" >Tryby</button>
+        <!-- Right game panel -->
+        <div class="game-panel">
+            <div class="header">
+                <img src="{% static 'image/NAZWA.png' %}" alt="LOGO" width="400" />
+            </div>
 
-        </form>
-    {% endif %}
-    <div class="litery">
-        {% for litera, status in litery_status.items %}
-            <span class="litera {{ status }}">{{ litera }}</span>
-        {% endfor %}
+            <div class="word-display">
+                <p>Słowo: {{ wyswietl_slowo }}</p>
+                <p class="small-text">Pozostałe próby: {{ pozostale_proby }}</p>
+            
+
+                {% if wygrana %}
+                    <p><strong>Gratulacje! Wygrałeś!</strong></p>
+                    <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                {% elif przegrana %}
+                    <p><strong>Przegrałeś! Słowo to: {{ slowo }}</strong></p>
+                    <button onclick="window.location.href='{% url 'gra_wisielec' %}'" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="odgadniete_litery" value="{{ odgadniete_litery }}">
+                        <input type="hidden" name="pozostale_proby" value="{{ pozostale_proby }}">
+                        <div class="input-panel">
+                            <p class="small-text">Podaj literę:</p>
+                            <input type="text" id="litera" name="litera" maxlength="1" required>
+                        </div>
+                        
+                        <div class="button-panel">
+                            <button type="submit" class="right-button">Zgadnij</button>
+                            <button onclick="window.location.href='{% url 'wybor_trybu' %}'">Tryby</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+            
+            <div class="letter-grid">
+                {% for litera, status in litery_status.items %}
+                    <span class="litera {{ status }}">{{ litera }}</span>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>
 </html>
