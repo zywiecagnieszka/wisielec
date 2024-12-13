@@ -47,17 +47,21 @@ def gra_wisielec(request):
     litery_status = {lit: "zielony" if lit in odgadniete_litery and lit in slowo.lower()
                      else "czerwony" if lit in odgadniete_litery else "szary"
                      for lit in alfabet}
+    numer_img = 6 - pozostale_proby
 
     if wygrana or przegrana:
         request.session['pozostale_proby'] = 6
         request.session['odgadniete_litery'] = ''
         request.session['slowo'] = losuj_slowo()
+        request.session['numer_img'] = numer_img
     else:
         request.session['pozostale_proby'] = pozostale_proby
         request.session['odgadniete_litery'] = odgadniete_litery
+        request.session['numer_img'] = numer_img
 
     return render(request, 'wisielec.html', {
         'wyswietl_slowo': wyswietl_slowo,
+        'numer_img': numer_img,
         'pozostale_proby': pozostale_proby,
         'odgadniete_litery': odgadniete_litery,
         'wygrana': wygrana,
