@@ -5,14 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wisielec - Przysłowia</title>
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-    <style>
-        .zielony { color: green; }
-        .czerwony { color: red; }
-        .szary { color: gray; }
-        .litery { font-size: 1.2em; margin-top: 10px; }
-        .litera { margin: 0 5px; display: inline-block; }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/styleZ.css' %}">
     <script>
         window.onload = function() {
             const literaInput = document.getElementById('litera');
@@ -20,38 +13,61 @@
                 literaInput.focus();
             }
         };
+        function confirmExit() {
+            const userConfirmed = window.confirm("Czy na pewno chcesz zakończyć grę?");
+            if (userConfirmed) {
+                window.location.href = '{% url 'wybor_trybu' %}';
+            } else {
+                return false; // Zapobiega przekierowaniu, jeśli użytkownik odrzuci
+            }
+        }
     </script>
 </head>
 <body>
-    <h1>Gra w Wisielca - Przysłowia</h1>
-    <p>Przysłowie: {{ wyswietl_przyslowie }}</p>
-    <p>Pozostałe próby: {{ pozostale_proby }}</p>
+    <div class="container">
+        <div class="illustration">
+            <img src="{% static 'image/' %}{{ numer_img }}.png" alt="Wisielec Image">
+        </div>
+        
 
-    {% if wygrana %}
-        <p><strong>Gratulacje! Wygrałeś!</strong></p>
-        <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >Zagraj ponownie</button>
-    {% elif przegrana %}
-        <p><strong>Przegrałeś! Przysłowie to: "{{ przyslowie }}"</strong></p>
-        <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3" >Zagraj ponownie</button>
-    {% else %}
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="odgadniete_litery" value="{{ odgadniete_litery }}">
-            <input type="hidden" name="pozostale_proby" value="{{ pozostale_proby }}">
-            <label for="litera">Podaj literę:</label>
-            <input type="text" id="litera" name="litera" maxlength="1" required>
-            <button type="submit">Zgadnij</button>
+        <div class="game-panel">
+            <div class="header">
+                <img src="{% static 'image/NAZWA.png' %}" alt="Logo Wisielec" width="300">
+                <div class="buttonn-panel">
+                        <button onclick="confirmExit()">Tryby</button>
+                     </div>
+            </div>
+            <div class="word-display">
             
-        </form>
-    {% endif %}
-    <button onclick="window.location.href='{% url 'wybor_trybu' %}'" class="btn btn-primary mt-3" >Tryby</button>
-    <div class="litery">
-        {% for litera, status in litery_status.items %}
-            <span class="litera {{ status }}">{{ litera }}</span>
-        {% endfor %}
+                <p >Przysłowie: {{ wyswietl_przyslowie }}</p>
+                <p class="small-text">Pozostałe próby: {{ pozostale_proby }}</p>
+    
+                {% if wygrana %}
+                    <p class="success"><strong>Gratulacje! Wygrałeś!</strong></p>
+                    <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                {% elif przegrana %}
+                    <p class="failure"><strong>Przegrałeś! Przysłowie to: "{{ przyslowie }}"</strong></p>
+                    <button onclick="window.location.href='{% url 'gra_przyslowie' %}'" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="odgadniete_litery" value="{{ odgadniete_litery }}">
+                        <input type="hidden" name="pozostale_proby" value="{{ pozostale_proby }}">
+                        <div class="input-panel">
+                            <label for="litera" class="small-text">Podaj literę:</label>
+                            <input type="text" id="litera" name="litera" maxlength="1" required>
+                            <button type="submit" class="btn btn-primary">Zgadnij</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+                
+            <div class="letter-grid">
+                {% for litera, status in litery_status.items %}
+                    <span class="litera {{ status }}">{{ litera }}</span>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>
 </html>
-
-
-
