@@ -33,9 +33,9 @@
         <div class="game-panel">
             <div class="header">
                 <img src="{% static 'image/NAZWA.png' %}" alt="Logo Wisielec" width="300">
-                <div class="buttonn-panel">
+                    <div class="buttonn-panel">
                         <button onclick="confirmExit()">Tryby</button>
-                     </div>
+                    </div>
             </div>
             <div class="word-display">
             
@@ -56,7 +56,9 @@
                         <div class="input-panel">
                             <label for="litera" class="small-text">Podaj literę:</label>
                             <input type="text" id="litera" name="litera" maxlength="1" required>
-                            <button type="submit" class="btn btn-primary">Zgadnij</button>
+                        </div>
+                        <div class="button-panel">
+                            <button type="submit">Zgadnij</button>
                         </div>
                     </form>
                 {% endif %}

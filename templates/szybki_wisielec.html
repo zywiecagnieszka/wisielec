@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Szybki Wisielec</title>
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/styleZ.css' %}">
     <style>
-        .zielony { color: green; }
-        .czerwony { color: red; }
-        .szary { color: gray; }
-        .litery { font-size: 1.2em; margin-top: 10px; }
-        .litera { margin: 0 5px; display: inline-block; }
-        .czas { font-weight: bold; color: red; }
+        .czas {
+            font-weight: bold;
+            color: red;
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
     </style>
     <script>
         function odswiezCzas() {
@@ -33,39 +35,68 @@
                 literaInput.focus();
             }
         };
+        
+        function confirmExit() {
+            const userConfirmed = window.confirm("Czy na pewno chcesz zakończyć grę?");
+            if (userConfirmed) {
+                window.location.href = '{% url 'wybor_trybu' %}';
+            } else {
+                return false; // Zapobiega przekierowaniu, jeśli użytkownik odrzuci
+            }
+        }
     </script>
 </head>
 <body>
-    <h1>Szybka śmierć</h1>
-    {% if przegrana %}
-        <p><strong>Przegrałeś! Słowo to: {{ slowo }}</strong></p>
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="nowa_gra" value="true">
-            <button type="submit">Zagraj ponownie</button>
-        </form>
-    {% elif wygrana %}
-        <p><strong>Gratulacje! Wygrałeś!</strong></p>
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="nowa_gra" value="true">
-            <button type="submit">Zagraj ponownie</button>
-        </form>
-    {% else %}
-        <p>Słowo: {{ wyswietl_slowo }}</p>
-        <p>Pozostałe próby: {{ pozostale_proby }}</p>
-        <p class="czas">Pozostały czas: <span id="czas">{{ czas_pozostaly }}</span> sekund</p>
-        <form method="post">
-            {% csrf_token %}
-            <label for="litera">Podaj literę:</label>
-            <input type="text" id="litera" name="litera" maxlength="1" required>
-            <button type="submit">Zgadnij</button>
-        </form>
-    {% endif %}
-    <div class="litery">
-        {% for litera, status in litery_status.items %}
-            <span class="litera {{ status }}">{{ litera }}</span>
-        {% endfor %}
+    <div class="container">
+        <div class="illustration">
+            <img src="{% static 'image/' %}{{ numer_img }}.png" alt="Wisielec Image">
+        </div>
+
+        <div class="game-panel">
+            <div class="header">
+                <img src="{% static 'image/NAZWA.png' %}" alt="Logo Wisielec" width="300">
+                <div class="buttonn-panel">
+                    <button onclick="confirmExit()">Tryby</button>
+                </div>
+            </div>
+
+            <div class="word-display">
+                {% if przegrana %}
+                    <p class="failure"><strong>Przegrałeś! Słowo to: "{{ slowo }}"</strong></p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                    </form>
+                {% elif wygrana %}
+                    <p class="success"><strong>Gratulacje! Wygrałeś!</strong></p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary mt-3">Zagraj ponownie</button>
+                    </form>
+                {% else %}
+                    <p>Słowo: <strong>{{ wyswietl_slowo }}</strong></p>
+                    <p class="small-text">Pozostałe próby: {{ pozostale_proby }}</p>
+                    <p class="czas">Pozostały czas: <span id="czas">{{ czas_pozostaly }}</span> sekund</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="input-panel">
+                            <label for="litera">Podaj literę:</label>
+                            <input type="text" id="litera" name="litera" maxlength="1" required>
+                            
+                        </div>
+                        <div class="button-panel">
+                            <button type="submit">Zgadnij</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+
+            <div class="letter-grid">
+                {% for litera, status in litery_status.items %}
+                    <span class="litera {{ status }}">{{ litera }}</span>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>
 </html>

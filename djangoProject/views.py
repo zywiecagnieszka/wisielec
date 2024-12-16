@@ -156,7 +156,7 @@ def szybki_wisielec(request):
     pozostale_proby = request.session.get('pozostale_proby', 6)
     odgadniete_litery = request.session.get('odgadniete_litery', '')
     czas_pozostaly = request.session.get('czas_pozostaly', 30)
-
+    numer_img = 6 - pozostale_proby
     if not slowo:
         slowo = losuj_slowo()
         pozostale_proby = 6
@@ -166,6 +166,7 @@ def szybki_wisielec(request):
         request.session['pozostale_proby'] = pozostale_proby
         request.session['odgadniete_litery'] = odgadniete_litery
         request.session['czas_pozostaly'] = czas_pozostaly
+        request.session['numer_img'] = numer_img
 
     if request.method == "POST" and 'litera' in request.POST:
         litera = request.POST.get('litera', '').lower()
@@ -175,6 +176,7 @@ def szybki_wisielec(request):
                 pozostale_proby -= 1
         request.session['odgadniete_litery'] = odgadniete_litery
         request.session['pozostale_proby'] = pozostale_proby
+        request.session['numer_img'] = numer_img
 
     wyswietl_slowo = ''.join(
         [litera if litera.lower() in odgadniete_litery else '_' for litera in slowo]
@@ -191,6 +193,7 @@ def szybki_wisielec(request):
         request.session['pozostale_proby'] = pozostale_proby
         request.session['odgadniete_litery'] = odgadniete_litery
         request.session['czas_pozostaly'] = czas_pozostaly
+        request.session['numer_img'] = numer_img
 
     if wygrana or przegrana:
         request.session['slowo'] = None
@@ -201,6 +204,7 @@ def szybki_wisielec(request):
 
     return render(request, 'szybki_wisielec.html', {
         'wyswietl_slowo': wyswietl_slowo,
+        'numer_img': numer_img,
         'pozostale_proby': pozostale_proby,
         'odgadniete_litery': odgadniete_litery,
         'wygrana': wygrana,
