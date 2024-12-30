@@ -7,7 +7,7 @@ from django.http import JsonResponse
 def losuj_slowo():
     otworz_plik = 'djangoProject/slowa.txt'
     try:
-        with open(otworz_plik, 'r') as plik:
+        with open(otworz_plik, 'r', encoding='utf-8') as plik:
             slowa = plik.readlines()
         slowa = [slowo.strip() for slowo in slowa if slowo.strip()]
         return random.choice(slowa)
@@ -74,7 +74,7 @@ def gra_wisielec(request):
 def losuj_przyslowie():
     otworz_plik = 'djangoProject/przyslowia.txt'
     try:
-        with open(otworz_plik, 'r', encoding='utf-8') as plik:  # Dodano encoding='utf-8'
+        with open(otworz_plik, 'r', encoding='utf-8') as plik:
             przyslowia = plik.readlines()
         przyslowia = [przyslowie.strip() for przyslowie in przyslowia if przyslowie.strip()]
         return random.choice(przyslowia)
