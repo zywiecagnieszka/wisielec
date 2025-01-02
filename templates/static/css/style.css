@@ -1,0 +1,168 @@
+/* Importowanie czcionek i frameworka Bootstrap */
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+
+body {
+    background-color: #d9d9d9;
+    font-family: Arial, sans-serif;
+}
+
+/*Strona główna*/
+.home-page .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    font-family: "Indie Flower", serif;
+    font-style: normal;
+}
+.home-page h1 {
+    color: #333;
+    font-size: 5rem;
+    margin-bottom: 20px;
+}
+p {
+    color: #666;
+    font-size: 2rem;
+}
+.home-page .btn {
+    background-color: #c6aab8;
+    border-width: 5px;
+    border-style: inset;
+    border-color: #963c8f;
+    color: #963c8f;
+    padding: 12px 21px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+}
+.home-page .btn:hover {
+    background-color: #963c8f;
+    color: #c6aab8;
+    border-width: 5px;
+    border-style: outset;
+    border-color: #c6aab8;
+}
+
+/*Zasady*/
+.rules .container {
+    max-width: 615px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    font-family: "Indie Flower", serif;
+    font-style: normal;
+}
+.rules h1 {
+    color: #333;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+.rules p {
+    color: #666;
+    font-size: 1.35rem;
+    text-align: justify;
+}
+.rules .btn {
+    background-color: #c6aab8;
+    border-width: 5px;
+    border-style: inset;
+    border-color: #963c8f;
+    color: #963c8f;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+}
+.rules .btn:hover {
+    background-color: #963c8f;
+    color: #c6aab8;
+    border-width: 5px;
+    border-style: outset;
+    border-color: #c6aab8;
+}
+
+/*Wybor trybu*/
+.mode .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    font-family: "Indie Flower", serif;
+    font-style: normal;
+}
+
+.mode h1 {
+    color: #333;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.mode p {
+    color: #666;
+    font-size: 1.35rem;
+    text-align: justify;
+}
+
+.mode .btn {
+    background-color: #c6aab8;
+    border-width: 6px;
+    border-style: inset;
+    border-color: #963c8f;
+    color: #963c8f;
+    width: 250px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 2rem;
+    transition: background-color 0.3s, border 0.3s;
+    position: relative;
+}
+
+.mode .btn:hover {
+    background-color: #963c8f;
+    color: #c6aab8;
+    border-width: 6px;
+    border-style: outset;
+    border-color: #c6aab8;
+}
+
+.mode .btn-container {
+    position: relative;
+}
+
+.mode .tooltip {
+    visibility: hidden;
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: "Indie Flower", serif;
+    font-style: normal;
+    background-color: #c6aab8;
+    color: #963c8f;
+    border-style: outset;
+    border-color: #963c8f;
+    text-align: center;
+    padding: 8px 15px;
+    border-radius: 8px;
+    width: auto;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0s 0.3s;
+    white-space: nowrap;
+}
+
+.mode .btn-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+
+
+

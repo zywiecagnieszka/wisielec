@@ -1,42 +1,23 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zasady Gry Wisielec</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        p {
-            color: #666;
-            font-size: 1.1rem;
-            text-align: left;
-        }
-    </style>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
+<body class="rules">
     <div class="container">
+        <img src="{% static 'image/NAZWA.png' %}" alt="LOGO" width="400"  />
         <h1>Zasady Gry Wisielec</h1>
         <p>1. Celem gry jest odgadnięcie ukrytego słowa, literka po literce.</p>
         <p>2. Na początku widzisz tylko liczbę liter w słowie, a każda poprawna litera odsłania się.</p>
         <p>3. Za każdym razem, gdy odgadniesz literę poprawnie, jest ona odkrywana w słowie.</p>
         <p>4. Jeśli podasz niepoprawną literę, tracisz jedną próbę. Masz określoną liczbę prób.</p>
         <p>5. Gra kończy się, gdy zgadniesz całe słowo lub stracisz wszystkie próby.</p>
-        <a href="{% url 'gra_wisielec' %}" class="btn btn-primary mt-3">Graj</a>
+        <a href="{% url 'wybor_trybu' %}" class="btn btn-primary mt-3">Graj</a>
     </div>
 </body>
 </html>
