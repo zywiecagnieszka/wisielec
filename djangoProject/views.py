@@ -242,6 +242,8 @@ def aktualizuj_gra(request):
     wyswietl_slowo = ''.join(
         [litera if litera.lower() in odgadniete_litery else '_' for litera in slowo]
     ) if slowo else ''
+
+
     wygrana = '_' not in wyswietl_slowo and slowo
     przegrana = pozostale_proby <= 0 or czas_pozostaly <= 0
     
@@ -257,6 +259,7 @@ def aktualizuj_gra(request):
     print(odgadniete_litery)
     print(wyswietl_slowo)
     print(numer_img)
+    print(wygrana)
     return JsonResponse({
         'wyswietl_slowo': wyswietl_slowo,
         'numer_img': numer_img,

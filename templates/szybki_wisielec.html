@@ -127,13 +127,13 @@
             </div>
 
             <div class="word-display">
-                {% if przegrana == "przegrana" %}
+                {% if przegrana == 1 %}
                     <p id="przegrana-info" class="failure"><strong>Przegrałeś! Słowo to: "{{ slowo }}"</strong></p>
                     <form method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary mt-3">Zagraj ponownie</button>
                     </form>
-                {% elif wygrana == "wygrana" %}
+                {% elif wygrana == wyswietl_slowo %}
                     <p class="success"><strong>Gratulacje! Wygrałeś!</strong></p>
                     <form method="post">
                         {% csrf_token %}
