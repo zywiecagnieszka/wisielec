@@ -93,10 +93,10 @@
             wyswietl_slowo_elementy.innerText = `Słowo: ${data.wyswietl_slowo}`;
 
 
-            if (data.przegrana == "przegrana") {
+            if (data.przegrana) {
                     location.reload(); 
                 }
-            if (data.wygrana == data.wyswietl_slowo) {
+            if (data.wygrana) {
                     location.reload(); 
             }
 
