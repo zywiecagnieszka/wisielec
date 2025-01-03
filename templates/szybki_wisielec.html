@@ -30,6 +30,12 @@
 
         window.onload = function() {
             setInterval(odswiezCzas, 1000);
+            const submitButton = document.getElementById('submit-button');
+            if (submitButton) {
+                submitButton.addEventListener('click', sendRequest);
+            }
+
+
             const literaInput = document.getElementById('litera');
             if (literaInput) {
                 literaInput.focus();
@@ -44,12 +50,66 @@
                 return false; // Zapobiega przekierowaniu, jeśli użytkownik odrzuci
             }
         }
+
+        function sendRequest(event) {
+    event.preventDefault(); // Zapobiega przeładowaniu strony
+
+    const literaInput = document.getElementById("litera");
+    const litera = literaInput.value.trim(); // Usuń białe znaki
+    const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+    if (!litera) {
+        alert("Proszę podać literę!");
+        return;
+    }
+
+    fetch("/aktualizuj_gra/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({ litera }),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Błąd serwera");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Dane odebrane z serwera:", data);
+
+            // Aktualizacja elementów HTML
+            document.getElementById("pozostale-proby").innerHTML = `Pozostałe próby: ${data.pozostale_proby}`;
+            const wisielecImg = document.getElementById("wisielec-img");
+            wisielecImg.src = `/static/image/${data.numer_img}.png`;
+            document.getElementById("wyswietl_slowo_text").innerHTML = `Słowo: <strong>${data.wyswietl_slowo}</strong>`;
+
+            if (data.przegrana) {
+                const przegranaInfo = document.getElementById("przegrana-info");
+                przegranaInfo.innerHTML = `<strong>Przegrałeś! Słowo to: "${data.slowo}"</strong>`;
+                przegranaInfo.style.display = "block";
+            }
+
+            for (const [litera, status] of Object.entries(data.litery_status)) {
+                const literaElement = document.querySelector(`.litera.${litera}`);
+                if (literaElement) {
+                    literaElement.className = `litera ${status}`;
+                }
+            }
+
+            literaInput.value = ""; // Wyczyść pole wejściowe
+        })
+        .catch(error => console.error("Błąd:", error));
+}
+
     </script>
 </head>
 <body>
     <div class="container">
         <div class="illustration">
-            <img src="{% static 'image/' %}{{ numer_img }}.png" alt="Wisielec Image">
+            <img id="wisielec-img" src="{% static 'image/' %}{{ numer_img }}.png" alt="Wisielec Image">
         </div>
 
         <div class="game-panel">
@@ -62,7 +122,7 @@
 
             <div class="word-display">
                 {% if przegrana %}
-                    <p class="failure"><strong>Przegrałeś! Słowo to: "{{ slowo }}"</strong></p>
+                    <p id="przegrana-info" class="failure"><strong>Przegrałeś! Słowo to: "{{ slowo }}"</strong></p>
                     <form method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary mt-3">Zagraj ponownie</button>
@@ -74,18 +134,20 @@
                         <button type="submit" class="btn btn-primary mt-3">Zagraj ponownie</button>
                     </form>
                 {% else %}
-                    <p>Słowo: <strong>{{ wyswietl_slowo }}</strong></p>
-                    <p class="small-text">Pozostałe próby: {{ pozostale_proby }}</p>
+                    <p id="wyswietl_slowo_text">Słowo: <strong>{{ wyswietl_slowo }}</strong></p>
+
+                    <p id="pozostale_proby" class="small-text">Pozostałe próby: {{ pozostale_proby }}</p>
                     <p class="czas">Pozostały czas: <span id="czas">{{ czas_pozostaly }}</span> sekund</p>
+
                     <form method="post">
                         {% csrf_token %}
+
                         <div class="input-panel">
                             <label for="litera">Podaj literę:</label>
                             <input type="text" id="litera" name="litera" maxlength="1" required>
-                            
                         </div>
                         <div class="button-panel">
-                            <button type="submit">Zgadnij</button>
+                            <button id="submit-button" type="submit">Zgadnij</button>
                         </div>
                     </form>
                 {% endif %}

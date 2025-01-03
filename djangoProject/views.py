@@ -2,7 +2,7 @@ from django.shortcuts import render
 import random
 import time
 from django.http import JsonResponse
-
+import json
 
 def losuj_slowo():
     otworz_plik = 'djangoProject/slowa.txt'
@@ -157,6 +157,7 @@ def szybki_wisielec(request):
     odgadniete_litery = request.session.get('odgadniete_litery', '')
     czas_pozostaly = request.session.get('czas_pozostaly', 30)
     numer_img = 6 - pozostale_proby
+
     if not slowo:
         slowo = losuj_slowo()
         pozostale_proby = 6
@@ -214,6 +215,49 @@ def szybki_wisielec(request):
         'czas_pozostaly': czas_pozostaly
     })
 
+def aktualizuj_gra(request):
+    alfabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż"
+    slowo = request.session.get('slowo')
+    pozostale_proby = request.session.get('pozostale_proby', 6)
+    odgadniete_litery = request.session.get('odgadniete_litery', '')
+    czas_pozostaly = request.session.get('czas_pozostaly', 30)
+    numer_img = 6 - pozostale_proby
+
+
+    data = json.loads(request.body)
+    litera = data.get('litera')
+    if litera and litera not in odgadniete_litery:
+        odgadniete_litery += litera
+        if litera not in slowo.lower():
+            pozostale_proby -= 1
+    
+    wyswietl_slowo = ''.join(
+        [litera if litera.lower() in odgadniete_litery else '_' for litera in slowo]
+    ) if slowo else ''
+    wygrana = '_' not in wyswietl_slowo and slowo
+    przegrana = pozostale_proby <= 0 or czas_pozostaly <= 0
+    
+    if wygrana or przegrana:
+        request.session['slowo'] = None
+
+    litery_status = {lit: "zielony" if lit in odgadniete_litery and lit in (slowo or '').lower()
+                     else "czerwony" if lit in odgadniete_litery else "szary"
+                     for lit in alfabet}
+
+    print (litera)
+    print(pozostale_proby)
+    print(odgadniete_litery)
+    print(wyswietl_slowo)
+    return JsonResponse({
+        'wyswietl_slowo': wyswietl_slowo,
+        'numer_img': numer_img,
+        'pozostale_proby': pozostale_proby,
+        'odgadniete_litery': odgadniete_litery,
+        'wygrana': wygrana,
+        'przegrana': przegrana,
+        'slowo': slowo,
+        'litery_status': litery_status,
+    })
 
 def aktualizuj_czas(request):
     slowo = request.session.get('slowo')
