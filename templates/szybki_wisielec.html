@@ -69,7 +69,7 @@
             "Content-Type": "application/json",
             "X-CSRFToken": csrfToken,
         },
-        body: JSON.stringify({ litera }),
+        body: JSON.stringify({ litera,  }),
     })
         .then(response => {
             if (!response.ok) {
@@ -81,14 +81,20 @@
             console.log("Dane odebrane z serwera:", data);
 
             // Aktualizacja elementów HTML
-            document.getElementById("pozostale-proby").innerHTML = `Pozostałe próby: ${data.pozostale_proby}`;
+
+            const pozostale_proby_elementy = document.getElementById("pozostale_proby");
+            pozostale_proby_elementy.innerText  = `Pozostałe próby: ${data.pozostale_proby}`;
+
+
             const wisielecImg = document.getElementById("wisielec-img");
             wisielecImg.src = `/static/image/${data.numer_img}.png`;
-            document.getElementById("wyswietl_slowo_text").innerHTML = `Słowo: <strong>${data.wyswietl_slowo}</strong>`;
+
+            const wyswietl_slowo_elementy =  document.getElementById("wyswietl_slowo_text");
+            wyswietl_slowo_elementy.innerText = `Słowo: ${data.wyswietl_slowo}`;
 
             if (data.przegrana) {
                 const przegranaInfo = document.getElementById("przegrana-info");
-                przegranaInfo.innerHTML = `<strong>Przegrałeś! Słowo to: "${data.slowo}"</strong>`;
+                przegranaInfo.innerText = `Przegrałeś! Słowo to: "${data.slowo}"`;
                 przegranaInfo.style.display = "block";
             }
 
@@ -121,13 +127,13 @@
             </div>
 
             <div class="word-display">
-                {% if przegrana %}
+                {% if przegrana == "przegrana" %}
                     <p id="przegrana-info" class="failure"><strong>Przegrałeś! Słowo to: "{{ slowo }}"</strong></p>
                     <form method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary mt-3">Zagraj ponownie</button>
                     </form>
-                {% elif wygrana %}
+                {% elif wygrana == "wygrana" %}
                     <p class="success"><strong>Gratulacje! Wygrałeś!</strong></p>
                     <form method="post">
                         {% csrf_token %}
