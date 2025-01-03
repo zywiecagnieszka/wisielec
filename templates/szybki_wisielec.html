@@ -69,7 +69,7 @@
             "Content-Type": "application/json",
             "X-CSRFToken": csrfToken,
         },
-        body: JSON.stringify({ litera,  }),
+        body: JSON.stringify({ litera }),
     })
         .then(response => {
             if (!response.ok) {
@@ -92,10 +92,12 @@
             const wyswietl_slowo_elementy =  document.getElementById("wyswietl_slowo_text");
             wyswietl_slowo_elementy.innerText = `Słowo: ${data.wyswietl_slowo}`;
 
-            if (data.przegrana) {
-                const przegranaInfo = document.getElementById("przegrana-info");
-                przegranaInfo.innerText = `Przegrałeś! Słowo to: "${data.slowo}"`;
-                przegranaInfo.style.display = "block";
+
+            if (data.przegrana == "przegrana") {
+                    location.reload(); 
+                }
+            if (data.wygrana == data.wyswietl_slowo) {
+                    location.reload(); 
             }
 
             for (const [litera, status] of Object.entries(data.litery_status)) {
@@ -133,7 +135,7 @@
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary mt-3">Zagraj ponownie</button>
                     </form>
-                {% elif wygrana == wyswietl_slowo %}
+                {% elif wygrana == slowo %}
                     <p class="success"><strong>Gratulacje! Wygrałeś!</strong></p>
                     <form method="post">
                         {% csrf_token %}

@@ -196,6 +196,7 @@ def szybki_wisielec(request):
         request.session['czas_pozostaly'] = czas_pozostaly
         request.session['numer_img'] = numer_img
 
+    print(wygrana)
     if wygrana or przegrana:
         request.session['slowo'] = None
 
@@ -229,10 +230,11 @@ def aktualizuj_gra(request):
     data = json.loads(request.body)
     litera = data.get('litera')
 
+    print(pozostale_proby)
 
     if litera and litera not in odgadniete_litery:
         odgadniete_litery += litera
-        if litera not in slowo.lower():
+        if litera not in slowo.lower() and pozostale_proby > 0:
             pozostale_proby -= 1
 
     request.session['odgadniete_litery'] = odgadniete_litery
@@ -243,9 +245,10 @@ def aktualizuj_gra(request):
         [litera if litera.lower() in odgadniete_litery else '_' for litera in slowo]
     ) if slowo else ''
 
+    print(wyswietl_slowo)
 
     wygrana = '_' not in wyswietl_slowo and slowo
-    przegrana = pozostale_proby <= 0 or czas_pozostaly <= 0
+    przegrana = pozostale_proby < 0 or czas_pozostaly <= 0
     
     if wygrana or przegrana:
         request.session['slowo'] = None
@@ -254,12 +257,7 @@ def aktualizuj_gra(request):
                      else "czerwony" if lit in odgadniete_litery else "szary"
                      for lit in alfabet}
 
-    print (litera)
-    print(pozostale_proby)
-    print(odgadniete_litery)
-    print(wyswietl_slowo)
-    print(numer_img)
-    print(wygrana)
+
     return JsonResponse({
         'wyswietl_slowo': wyswietl_slowo,
         'numer_img': numer_img,
