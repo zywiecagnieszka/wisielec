@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import random
-from djangoProject.models import Slowo
+from djangoProject.models import Slowo, Przyslowie
 
 
 def losuj_slowo():
@@ -71,21 +71,15 @@ def gra_wisielec(request):
         'litery_status': litery_status
     })
 
-
 def losuj_przyslowie():
-    otworz_plik = 'djangoProject/przyslowia.txt'
     try:
-        with open(otworz_plik, 'r', encoding='utf-8') as plik:
-            przyslowia = plik.readlines()
-        przyslowia = [przyslowie.strip() for przyslowie in przyslowia if przyslowie.strip()]
-        return random.choice(przyslowia)
-    except FileNotFoundError:
-        return "przyklad przyslowia"
-    except UnicodeDecodeError as e:
-        print(f"Błąd odczytu pliku: {e}")
-        return "błąd kodowania pliku"
-
-
+        przyslowia = Przyslowie.objects.all()
+        if not przyslowia.exists():
+            return "przyklad"
+        przyslowie = random.choice(przyslowia)
+        return przyslowie.tekst
+    except Exception as e:
+        return str(e)
 
 def gra_przyslowie(request):
     alfabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż"
