@@ -1,18 +1,19 @@
 from django.shortcuts import render
-import random
-import time
 from django.http import JsonResponse
+import random
+from djangoProject.models import Slowo
 
 
 def losuj_slowo():
-    otworz_plik = 'djangoProject/slowa.txt'
     try:
-        with open(otworz_plik, 'r', encoding='utf-8') as plik:
-            slowa = plik.readlines()
-        slowa = [slowo.strip() for slowo in slowa if slowo.strip()]
-        return random.choice(slowa)
-    except FileNotFoundError:
-        return "przyklad"
+        slowa = Slowo.objects.all()
+        if not slowa.exists():
+            return "przyklad"
+        slowo = random.choice(slowa)
+        return slowo.tekst
+    except Exception as e:
+        return str(e)
+
 def main_page(request):
     return render(request, 'strona_glowna.html')
 
