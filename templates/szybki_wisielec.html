@@ -41,7 +41,7 @@
             if (userConfirmed) {
                 window.location.href = '{% url 'wybor_trybu' %}';
             } else {
-                return false; // Zapobiega przekierowaniu, jeśli użytkownik odrzuci
+                return false; 
             }
         }
     </script>
@@ -57,6 +57,7 @@
                 <img src="{% static 'image/NAZWA.png' %}" alt="Logo Wisielec" width="300">
                 <div class="buttonn-panel">
                     <button onclick="confirmExit()">Tryby</button>
+                    <button onclick="window.location.href='{% url 'logowanie' %}'">Wyloguj</button>
                 </div>
             </div>
 
