@@ -2,17 +2,101 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejestracja</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Indie Flower', cursive;
+            background-color: #d9d9d9;
+        }
+
+        .container {
+            width: 350px;
+            padding: 20px;
+            background-color: #d7b9c3;
+            border: 5px solid #963c8f;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .container h1 {
+            font-size: 2.5em;
+            color: #963c8f;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2em;
+            border: 2px solid #963c8f;
+            border-radius: 10px;
+            background-color: #f3f3f3;
+            outline: none;
+            text-align: center;
+            color: #000;
+        }
+
+        button[type="submit"] {
+            padding: 10px;
+            font-size: 1.5em;
+            color: #963c8f;
+            background-color: #f3f3f3;
+            border: 2px solid #963c8f;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #963c8f;
+            color: #f3f3f3;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 1em;
+        }
+
+        p a {
+            color: #963c8f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Rejestracja</h1>
         <form method="POST">
             {% csrf_token %}
-            <input type="text" name="login" placeholder="Login" required><br>
-            <input type="email" name="email" placeholder="Email" required><br>
-            <input type="password" name="haslo" placeholder="Hasło" required><br>
+            <input type="text" name="login" placeholder="Login" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="haslo" placeholder="Hasło" required>
             <button type="submit">Zarejestruj się</button>
         </form>
         <p>Masz już konto? <a href="{% url 'logowanie' %}">Zaloguj się</a></p>
