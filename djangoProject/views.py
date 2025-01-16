@@ -1,8 +1,43 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import random
-from djangoProject.models import Slowo, Przyslowie
+from django.contrib import messages
+from djangoProject.models import Slowo, Przyslowie, Uzytkownik
 
+def rejestracja(request):
+    if request.method == 'POST':
+        login = request.POST['login']
+        email = request.POST['email']
+        haslo = request.POST['haslo']
+
+        if Uzytkownik.objects.filter(email=email).exists():
+            messages.error(request, "Podany email już istnieje!")
+            return redirect('rejestracja')
+
+        Uzytkownik.objects.create(login=login, email=email, haslo=haslo)
+
+        messages.success(request, "Rejestracja zakończona sukcesem! Możesz się teraz zalogować.")
+        return redirect('logowanie')
+    return render(request, 'rejestracja.html')
+
+def logowanie(request):
+    if request.method == 'POST':
+        login = request.POST['login']
+        haslo = request.POST['haslo']
+        try:
+            uzytkownik = Uzytkownik.objects.get(login=login, haslo=haslo)
+            request.session['user_id'] = uzytkownik.id
+            request.session['user_login'] = uzytkownik.login
+            messages.success(request, f"Witaj, {uzytkownik.login}!")
+            return redirect('wybor_trybu')
+        except Uzytkownik.DoesNotExist:
+            messages.error(request, "Nieprawidłowy email lub hasło!")
+    return render(request, 'logowanie.html')
+
+def wylogowanie(request):
+    request.session.flush()
+    messages.success(request, "Zostałeś wylogowany.")
+    return redirect('logowanie')
 
 def losuj_slowo():
     try:

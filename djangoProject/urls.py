@@ -27,4 +27,7 @@ urlpatterns = [
     path('wybor_trybu/', views.wybor_trybu, name='wybor_trybu'),
     path('szybki_wisielec/', views.szybki_wisielec, name='szybki_wisielec'),
     path('aktualizuj_czas/', views.aktualizuj_czas, name='aktualizuj_czas'),
+    path('rejestracja/', views.rejestracja, name='rejestracja'),
+    path('logowanie/', views.logowanie, name='logowanie'),
+
 ]

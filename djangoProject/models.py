@@ -17,3 +17,17 @@ class Przyslowie(models.Model):
 
     def __str__(self):
         return self.tekst
+
+class Uzytkownik(models.Model):
+    login = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(unique=True)
+    haslo = models.CharField(max_length=255)
+    punkty = models.IntegerField(default=0)
+    punkty_dzien = models.IntegerField(default=0)
+    data = models.DateField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'users'
+
+    def __str__(self):
+        return self.login
