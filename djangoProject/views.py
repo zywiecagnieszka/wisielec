@@ -182,6 +182,9 @@ def gra_przyslowie(request):
         request.session['odgadniete_litery'] = odgadniete_litery
         request.session['numer_img'] = numer_img
 
+    top_punkty = Uzytkownik.objects.all().order_by('-punkty')[:5]
+    top_punkty_dzien = Uzytkownik.objects.all().order_by('-punkty_dzien')[:5]
+
     return render(request, 'przyslowia.html', {
         'wyswietl_przyslowie': wyswietl_przyslowie,
         'numer_img': numer_img,
@@ -190,7 +193,9 @@ def gra_przyslowie(request):
         'wygrana': wygrana,
         'przegrana': przegrana,
         'przyslowie': przyslowie if przegrana else None,
-        'litery_status': litery_status
+        'litery_status': litery_status,
+        'top_punkty': top_punkty,
+        'top_punkty_dzien': top_punkty_dzien,
     })
 
 
@@ -262,6 +267,9 @@ def szybki_wisielec(request):
                      else "czerwony" if lit in odgadniete_litery else "szary"
                      for lit in alfabet}
 
+    top_punkty = Uzytkownik.objects.all().order_by('-punkty')[:5]
+    top_punkty_dzien = Uzytkownik.objects.all().order_by('-punkty_dzien')[:5]
+
     return render(request, 'szybki_wisielec.html', {
         'wyswietl_slowo': wyswietl_slowo,
         'numer_img': numer_img,
@@ -271,7 +279,9 @@ def szybki_wisielec(request):
         'przegrana': przegrana,
         'slowo': slowo,
         'litery_status': litery_status,
-        'czas_pozostaly': czas_pozostaly
+        'czas_pozostaly': czas_pozostaly,
+        'top_punkty': top_punkty,
+        'top_punkty_dzien': top_punkty_dzien,
     })
 
 

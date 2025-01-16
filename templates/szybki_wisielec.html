@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Szybki Wisielec</title>
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/styleZ.css' %}">
     <style>
         .czas {
             font-weight: bold;
@@ -15,7 +13,46 @@
             font-size: 1.5em;
             margin-top: 10px;
         }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .ranking-container {
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px;
+            margin-right: 100px;
+        }
+        .ranking {
+            background-color: #f2e7f3;
+            border: 5px solid #963c8f;
+            border-radius: 15px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .ranking h2 {
+            font-size: 30px;
+            margin: 0 0 10px;
+            color: #5d2b70;
+        }
+        .ranking h3 {
+            font-size: 25px;
+            margin: 10px 0;
+            color: #713b8f;
+        }
+        .ranking div {
+            font-size: 20px;
+            margin: 5px 0;
+            color: #4c305f;
+        }
     </style>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/styleZ.css' %}">
+    
     <script>
         function odswiezCzas() {
             fetch("{% url 'aktualizuj_czas' %}")
@@ -55,7 +92,7 @@
         <div class="game-panel">
             <div class="header">
                 <img src="{% static 'image/NAZWA.png' %}" alt="Logo Wisielec" width="300">
-                <div class="buttonn-panel">
+                <div class="buttonn-panel" style="display: flex; gap: 10px;">
                     <button onclick="confirmExit()">Tryby</button>
                     <button onclick="window.location.href='{% url 'logowanie' %}'">Wyloguj</button>
                 </div>
@@ -95,6 +132,24 @@
             <div class="letter-grid">
                 {% for litera, status in litery_status.items %}
                     <span class="litera {{ status }}">{{ litera }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="ranking-container">
+        <div class="ranking">
+            <h2>Ranking</h2>
+            <h3>Najlepsi gracze</h3>
+            <div>
+                {% for uzytkownik in top_punkty %}
+                    <div>{{ uzytkownik.login }} - {{ uzytkownik.punkty }} pkt</div>
+                {% endfor %}
+            </div>
+        
+            <h3>Najlepsi dzisiaj</h3>
+            <div>
+                {% for uzytkownik in top_punkty_dzien %}
+                    <div>{{ uzytkownik.login }} - {{ uzytkownik.punkty_dzien }} pkt</div>
                 {% endfor %}
             </div>
         </div>
