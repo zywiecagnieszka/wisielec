@@ -4,6 +4,7 @@ import random
 from django.contrib import messages
 from djangoProject.models import Slowo, Przyslowie, Uzytkownik
 from datetime import date
+from django.utils.timezone import now
 
 def aktualizuj_punkty(uzytkownik, punkty_do_dodania):
     dzisiaj = date.today()
@@ -111,6 +112,9 @@ def gra_wisielec(request):
         request.session['odgadniete_litery'] = odgadniete_litery
         request.session['numer_img'] = numer_img
 
+    top_punkty = Uzytkownik.objects.all().order_by('-punkty')[:5]
+    top_punkty_dzien = Uzytkownik.objects.all().order_by('-punkty_dzien')[:5]
+
     return render(request, 'wisielec.html', {
         'wyswietl_slowo': wyswietl_slowo,
         'numer_img': numer_img,
@@ -119,7 +123,9 @@ def gra_wisielec(request):
         'wygrana': wygrana,
         'przegrana': przegrana,
         'slowo': slowo if przegrana else None,
-        'litery_status': litery_status
+        'litery_status': litery_status,
+        'top_punkty': top_punkty,
+        'top_punkty_dzien': top_punkty_dzien,
     })
 
 def losuj_przyslowie():
