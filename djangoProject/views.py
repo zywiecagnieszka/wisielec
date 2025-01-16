@@ -3,6 +3,18 @@ from django.http import JsonResponse
 import random
 from django.contrib import messages
 from djangoProject.models import Slowo, Przyslowie, Uzytkownik
+from datetime import date
+
+def aktualizuj_punkty(uzytkownik, punkty_do_dodania):
+    dzisiaj = date.today()
+    if uzytkownik.data == dzisiaj:
+        uzytkownik.punkty += punkty_do_dodania
+        uzytkownik.punkty_dzien += punkty_do_dodania
+    else:
+        uzytkownik.punkty_dzien = punkty_do_dodania
+        uzytkownik.punkty += punkty_do_dodania
+        uzytkownik.data = dzisiaj
+    uzytkownik.save()
 
 def rejestracja(request):
     if request.method == 'POST':
@@ -85,6 +97,10 @@ def gra_wisielec(request):
                      for lit in alfabet}
     numer_img = 6 - pozostale_proby
 
+    if wygrana:
+        uzytkownik = Uzytkownik.objects.get(id=request.session['user_id'])
+        aktualizuj_punkty(uzytkownik, 3)
+
     if wygrana or przegrana:
         request.session['pozostale_proby'] = 6
         request.session['odgadniete_litery'] = ''
@@ -145,6 +161,10 @@ def gra_przyslowie(request):
                      else "czerwony" if lit in odgadniete_litery else "szary"
                      for lit in alfabet}
     numer_img = 6 - pozostale_proby
+
+    if wygrana:
+        uzytkownik = Uzytkownik.objects.get(id=request.session['user_id'])
+        aktualizuj_punkty(uzytkownik, 2)
 
     if wygrana or przegrana:
         request.session['pozostale_proby'] = 6
@@ -224,6 +244,10 @@ def szybki_wisielec(request):
         request.session['odgadniete_litery'] = odgadniete_litery
         request.session['czas_pozostaly'] = czas_pozostaly
         request.session['numer_img'] = numer_img
+
+    if wygrana:
+        uzytkownik = Uzytkownik.objects.get(id=request.session['user_id'])
+        aktualizuj_punkty(uzytkownik, 5)
 
     if wygrana or przegrana:
         request.session['slowo'] = None
