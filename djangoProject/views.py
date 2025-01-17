@@ -113,7 +113,7 @@ def gra_wisielec(request):
         request.session['numer_img'] = numer_img
 
     top_punkty = Uzytkownik.objects.all().order_by('-punkty')[:5]
-    top_punkty_dzien = Uzytkownik.objects.all().order_by('-punkty_dzien')[:5]
+    top_punkty_dzien = Uzytkownik.objects.filter(data=date.today()).order_by('-punkty_dzien')[:5]
 
     return render(request, 'wisielec.html', {
         'wyswietl_slowo': wyswietl_slowo,
@@ -183,7 +183,7 @@ def gra_przyslowie(request):
         request.session['numer_img'] = numer_img
 
     top_punkty = Uzytkownik.objects.all().order_by('-punkty')[:5]
-    top_punkty_dzien = Uzytkownik.objects.all().order_by('-punkty_dzien')[:5]
+    top_punkty_dzien = Uzytkownik.objects.filter(data=date.today()).order_by('-punkty_dzien')[:5]
 
     return render(request, 'przyslowia.html', {
         'wyswietl_przyslowie': wyswietl_przyslowie,
@@ -268,7 +268,7 @@ def szybki_wisielec(request):
                      for lit in alfabet}
 
     top_punkty = Uzytkownik.objects.all().order_by('-punkty')[:5]
-    top_punkty_dzien = Uzytkownik.objects.all().order_by('-punkty_dzien')[:5]
+    top_punkty_dzien = Uzytkownik.objects.filter(data=date.today()).order_by('-punkty_dzien')[:5]
 
     return render(request, 'szybki_wisielec.html', {
         'wyswietl_slowo': wyswietl_slowo,
